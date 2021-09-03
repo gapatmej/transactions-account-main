@@ -1,12 +1,14 @@
 package com.pichincha.backend.test.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.Data;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Data
 public class Account {
 
 	@Id
@@ -20,32 +22,7 @@ public class Account {
 
 	private LocalDateTime creationDate;
 
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String title) {
-		this.number = title;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String content) {
-		this.type = content;
-	}
-
-	public LocalDateTime getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(LocalDateTime creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public Long getId() {
-		return id;
-	}
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+	private Set<Transaction> transactions = new HashSet<>();
 
 }

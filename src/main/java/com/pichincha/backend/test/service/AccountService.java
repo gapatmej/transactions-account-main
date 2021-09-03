@@ -1,21 +1,23 @@
 package com.pichincha.backend.test.service;
 
-
 import com.pichincha.backend.test.dto.AccountDto;
 import com.pichincha.backend.test.dto.NewTransactionDto;
 import com.pichincha.backend.test.dto.TransactionDto;
 import com.pichincha.backend.test.repository.AccountRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Repository
+
+@Service
 public class AccountService {
 
 	private final AccountRepository accountRepository;
+	private final TransactionService transactionService;
 
-	public AccountService(AccountRepository accountRepository) {
+	public AccountService(AccountRepository accountRepository, TransactionService transactionService) {
 		this.accountRepository = accountRepository;
+		this.transactionService = transactionService;
 	}
 
 	public AccountDto getAccount(Long id) {
@@ -31,7 +33,7 @@ public class AccountService {
 	 * @return list of transactions sorted by creation date descending - most recent first
 	 */
 	public List<TransactionDto> getTransactionsForAccount(Long accountId) {
-		throw new UnsupportedOperationException();
+		return transactionService.getTransactionsForAccount(accountId);
 	}
 
 	/**
@@ -41,8 +43,8 @@ public class AccountService {
 	 * @return id of the created transaction
 	 * @throws IllegalArgumentException if there is no account for passed newTransactionDto.accountId
 	 */
-	public Long addTransaction(NewTransactionDto newTransactionDto) {
-		throw new UnsupportedOperationException();
+	public Long addTransaction(NewTransactionDto newTransactionDto) throws IllegalArgumentException {
+		return transactionService.addTransaction(newTransactionDto);
 	}
 
 }

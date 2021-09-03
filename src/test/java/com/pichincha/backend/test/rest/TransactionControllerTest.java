@@ -61,6 +61,22 @@ public class TransactionControllerTest extends AbstractControllerTest {
 			.andExpect(status().isCreated());
 	}
 
+	@Test
+	public void shouldReturnNotFoundTransactions() throws Exception {
+
+		// given
+		List<TransactionDto> transactions = new ArrayList<>();
+
+		// when
+		when(accountService.getTransactionsForAccount(1L)).thenReturn(transactions);
+
+		// then
+		mockMvc.perform(get("/accounts/1/transactions").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", hasSize(0)));
+
+	}
+
 	private NewTransactionDto createTransaction(String comment, String type) {
 		NewTransactionDto newTransaction = new NewTransactionDto();
 		newTransaction.setComment(comment);
